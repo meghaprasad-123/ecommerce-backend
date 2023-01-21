@@ -71,8 +71,50 @@ const getwishlist=()=>{
     )
 }
 
+
+
+deletewish=(id)=>{
+    return db.wishlist.deleteOne({id}).then(
+        (result)=>{
+            if(result){
+                // return{
+                //     status:true,
+                //     statusCode:200,
+                //     message:"Product deleted"
+                // }
+                return db.wishlist.find().then(
+                    (result)=>{
+                        if(result){
+                            return{
+                                status:true,
+                                statusCode:200,
+                                wishlist:result,
+                                message:'product removed successfully'
+                            }
+                        }
+                        else{
+                            return{
+                                status:false,
+                                statusCode:404,
+                                message:"Product not found"
+                            }
+                        }
+                    }
+                )
+            }
+            else{
+                return{
+                    status:false,
+                    statusCode:404,
+                    message:"Your wishlist is empty"
+                }
+            }
+        }
+    )
+}
 module.exports = {
     getProducts,
     addtowishlist,
-    getwishlist
+    getwishlist,
+    deletewish
 }
